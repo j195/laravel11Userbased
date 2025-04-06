@@ -6,14 +6,30 @@
 
 ## let me give you stepbystep guide here to check the code and tests
 
-1. first run the command php artisan serve
-2. then in the console write command php artisan fetch:random-users this will add random users in the database from the API call
+1.  first run the command php artisan serve
+2.  then in the console write command php artisan fetch:random-users this will add random users in the database from the API call
 
-3. now open postman and enter the API url http://localhost:8000/api/users
+3.  now open postman and enter the API url http://localhost:8000/api/users
 
-    - this will give you 10 records of users and if you dont pass limit then default 10 records are going to show
-      just pass limit=20
-    - here are the filters you can use as it was also described the url is
-      GET /api/users?gender=male&city=London&fields=name,email,country&limit=10 ---URL
-      http://localhost:8000/api/users?limit=20&fields=name,email this will show you only name and email in response
-    - http://localhost:8000/api/users?limit=20&fields=name,email,country,city,gender this is the full URL you can work with also
+        - this will give you 10 records of users and if you dont pass limit then default 10 records are going to show
+          just pass limit=20
+        - here are the filters you can use as it was also described the url is
+          GET /api/users?gender=male&city=London&fields=name,email,country&limit=10 ---URL
+          http://localhost:8000/api/users?limit=20&fields=name,email this will show you only name and email in response
+        - http://localhost:8000/api/users?limit=20&fields=name,email,country,city,gender this is the full URL you can work with also
+
+        - the response you can expect from the API request if your request like this GET /api/users/filter?gender=female&city=Paris&fields=name,email,country&limit=2
+        
+        [
+
+            {
+            "name": "Alice Martin",
+            "email": "alice.martin@example.com",
+            "country": "France"
+            },
+            {
+            "name": "Lucie Dubois",
+            "email": "lucie.dubois@example.com",
+            "country": "France"
+            }
+        ]
