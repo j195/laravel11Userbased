@@ -11,6 +11,8 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
+use Exception;
 
 class FetchAndStoreRandomUser implements ShouldQueue
 {
@@ -29,6 +31,7 @@ class FetchAndStoreRandomUser implements ShouldQueue
      */
     public function handle(): void
     {
+        try{
         $response = Http::withoutVerifying()->get('https://randomuser.me/api/?results=5');
 
         if ($response->successful()) {
@@ -50,5 +53,9 @@ class FetchAndStoreRandomUser implements ShouldQueue
                 ]);
             }
         }
+    } catch (Exception $e) {
+        Log::error('Error dispatching FetchRandomUsersJob: ' . $e->getMessage());
+        $this->error('Failed to dispatch job. Check logs for details.');
+    }
     }
 }

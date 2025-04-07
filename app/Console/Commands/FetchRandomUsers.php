@@ -6,6 +6,7 @@ use Illuminate\Console\Command;
 use App\Models\MainUser;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use Exception;
 
 class FetchRandomUsers extends Command
 {
@@ -28,6 +29,7 @@ class FetchRandomUsers extends Command
      */
     public function handle()
     {
+        try {
         $response = Http::withoutVerifying()->get('https://randomuser.me/api/?results=5');
         $users = $response->json()['results'];
 
@@ -49,5 +51,10 @@ class FetchRandomUsers extends Command
 
         $this->info('5 users fetched and saved.');
         Log::info('🔁 Running FetchRandomUsers job...');
+
+    } catch (Exception $e) {
+        Log::error('Error dispatching FetchRandomUsersJob: ' . $e->getMessage());
+        $this->error('Failed to dispatch job. Check logs for details.');
+    }
     }
 }
